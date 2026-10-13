@@ -1,0 +1,97 @@
+/* =====================================================================
+   SEGURIDAD PRL · landing.css  – Landing de captación B2B
+   Requiere: base.css (+ site.css para footer y botón WhatsApp)
+   ===================================================================== */
+.lp-header { position: absolute; inset: 0 0 auto 0; z-index: 10; padding-block: 1.1rem; }
+.lp-header .container { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.lp-header .brand__text { width: 150px; }
+
+.lp-hero {
+  position: relative; overflow: hidden; color: var(--c-on-dark);
+  padding: calc(var(--header-h) + clamp(1.5rem, 1rem + 2vw, 3rem)) 0 clamp(3rem, 2rem + 3vw, 5rem);
+  background: linear-gradient(100deg, rgba(27,35,42,.97) 0%, rgba(27,35,42,.9) 45%, rgba(27,35,42,.55) 100%), url("../img/obra-civil.jpg") center 35% / cover no-repeat, var(--c-ink);
+}
+.lp-hero__grid { position: relative; display: grid; gap: clamp(2rem, 1.5rem + 3vw, 4rem); align-items: center; }
+@media (min-width: 1000px) { .lp-hero__grid { grid-template-columns: 1.1fr .9fr; } }
+.lp-hero__kicker { display: inline-flex; align-items: center; gap: .5rem; padding: .4rem .85rem; border-radius: 100px; background: rgba(229, 72, 77, .14); border: 1px solid rgba(229, 72, 77, .4); color: #ff9b9e; font-size: var(--fs-xs); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 1.3rem; }
+.lp-hero__kicker svg { width: 16px; height: 16px; }
+.lp-hero h1 { color: #fff; font-size: clamp(2.2rem, 1.5rem + 3.2vw, 4rem); margin-bottom: 1.2rem; }
+.lp-hero__sub { font-size: clamp(1rem, .95rem + .3vw, 1.15rem); color: var(--c-on-dark-muted); max-width: 56ch; }
+.lp-hero__sub strong { color: #fff; }
+.lp-bullets { display: grid; gap: .7rem; margin: 1.6rem 0 2rem; }
+.lp-bullets li { display: flex; gap: .7rem; align-items: flex-start; font-weight: 500; }
+.lp-bullets svg { width: 22px; height: 22px; color: var(--c-turquesa); flex: none; margin-top: .1rem; }
+.lp-trust { display: flex; flex-wrap: wrap; gap: .5rem 1.4rem; font-size: var(--fs-xs); letter-spacing: .06em; text-transform: uppercase; color: var(--c-on-dark-muted); font-weight: 600; }
+
+.lp-form { background: #fff; color: var(--c-text); border-radius: var(--radius-lg); padding: clamp(1.4rem, 1rem + 1.5vw, 2.2rem); box-shadow: var(--shadow-lg); position: relative; }
+.lp-form::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 5px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; background: var(--grad-brand); }
+.lp-form h2 { font-family: var(--f-display); font-weight: 500; text-transform: uppercase; font-size: 1.55rem; margin-bottom: .25rem; }
+.lp-form > p { font-size: .9rem; color: var(--c-muted); margin-bottom: 1.2rem; }
+.lp-form .form { gap: .8rem; }
+.lp-form .field input, .lp-form .field select { min-height: 48px; }
+
+/* Problema / costo de no actuar */
+.pain { display: grid; gap: 1.2rem; }
+@media (min-width: 768px) { .pain { grid-template-columns: repeat(3, 1fr); } }
+.pain__card { padding: 1.6rem; border-radius: var(--radius); background: #fff; border: 1px solid var(--c-line); border-top: 4px solid var(--c-danger); }
+.pain__card svg { width: 32px; height: 32px; color: var(--c-danger); margin-bottom: .8rem; }
+.pain__card h3 { font-family: var(--f-display); font-weight: 500; text-transform: uppercase; font-size: 1.2rem; margin-bottom: .4rem; }
+.pain__card p { font-size: .9rem; color: var(--c-muted); margin: 0; }
+
+/* Beneficios */
+.benefits { display: grid; gap: 1.2rem; }
+@media (min-width: 640px) { .benefits { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .benefits { grid-template-columns: repeat(4, 1fr); } }
+.benefit { padding: 1.6rem 1.4rem; border-radius: var(--radius); background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); transition: transform .3s var(--ease), border-color .3s; }
+.benefit:hover { transform: translateY(-4px); border-color: var(--c-turquesa); }
+.benefit__icon { width: 52px; height: 52px; border-radius: 12px; display: grid; place-items: center; background: var(--grad-brand); color: #fff; margin-bottom: 1rem; }
+.benefit__icon svg { width: 26px; height: 26px; }
+.benefit h3 { font-family: var(--f-display); font-weight: 500; text-transform: uppercase; font-size: 1.15rem; margin-bottom: .4rem; }
+.benefit p { font-size: .88rem; color: var(--c-on-dark-muted); margin: 0; }
+
+/* Autoridad */
+.authority { display: grid; gap: clamp(2rem, 1.5rem + 2vw, 4rem); align-items: center; }
+@media (min-width: 980px) { .authority { grid-template-columns: 1fr 1fr; } }
+.authority__img { border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); aspect-ratio: 4/3; }
+.authority__img img { width: 100%; height: 100%; object-fit: cover; }
+.authority__stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin: 1.6rem 0; }
+.authority__stat { padding: 1.1rem; border-radius: var(--radius); background: var(--c-bg-soft); border-left: 4px solid var(--c-azul); }
+.authority__stat b { display: block; font-family: var(--f-display); font-size: 2rem; line-height: 1; color: var(--c-ink); }
+.authority__stat span { font-size: .82rem; color: var(--c-muted); }
+.sectors { display: grid; grid-template-columns: repeat(2, 1fr); gap: .6rem; margin-top: 1rem; }
+@media (min-width: 640px) { .sectors { grid-template-columns: repeat(3, 1fr); } }
+.sector { display: flex; align-items: center; gap: .5rem; padding: .7rem .8rem; border-radius: var(--radius-sm); border: 1px solid var(--c-line); font-size: .84rem; font-weight: 600; }
+.sector svg { width: 18px; height: 18px; color: var(--c-azul); flex: none; }
+
+/* Escenarios (casos tipo) */
+.cases { display: grid; gap: 1.2rem; }
+@media (min-width: 900px) { .cases { grid-template-columns: repeat(3, 1fr); } }
+.case { padding: 1.6rem; border-radius: var(--radius); background: #fff; border: 1px solid var(--c-line); display: grid; gap: .8rem; align-content: start; }
+.case__tag { justify-self: start; font-size: var(--fs-xs); font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c-azul); background: rgba(0,110,255,.08); padding: .3rem .7rem; border-radius: 100px; }
+.case h3 { font-family: var(--f-display); font-weight: 500; text-transform: uppercase; font-size: 1.2rem; margin: 0; }
+.case dl { margin: 0; display: grid; gap: .6rem; font-size: .88rem; }
+.case dt { font-weight: 700; color: var(--c-ink); font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+.case dd { margin: 0; color: var(--c-muted); }
+
+/* FAQ */
+.faq { max-width: 860px; margin-inline: auto; display: grid; gap: .8rem; }
+.faq details { border: 1px solid var(--c-line); border-radius: var(--radius); background: #fff; transition: border-color .3s, box-shadow .3s; }
+.faq details[open] { border-color: var(--c-azul); box-shadow: var(--shadow-sm); }
+.faq summary { list-style: none; cursor: pointer; padding: 1.15rem 3.2rem 1.15rem 1.3rem; font-weight: 700; color: var(--c-ink); position: relative; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 1.2rem; top: 50%; transform: translateY(-50%); width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: var(--c-bg-soft); color: var(--c-azul); font-size: 1.2rem; font-weight: 600; transition: transform .3s, background .3s, color .3s; }
+.faq details[open] summary::after { content: "–"; background: var(--c-azul); color: #fff; }
+.faq details > div { padding: 0 1.3rem 1.2rem; color: var(--c-muted); font-size: .94rem; }
+.faq details > div p:last-child { margin: 0; }
+
+/* CTA final */
+.final-cta { text-align: center; padding: clamp(2.5rem, 2rem + 3vw, 4.5rem) var(--gutter); border-radius: var(--radius-lg); background: var(--grad-brand); color: #fff; position: relative; overflow: hidden; }
+.final-cta h2 { color: #fff; }
+.final-cta p { max-width: 60ch; margin: 0 auto 1.8rem; font-size: 1.05rem; color: rgba(255,255,255,.9); }
+.final-cta .btn--primary { --btn-bg: var(--c-ink); }
+.final-cta__actions { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; }
+
+/* Barra CTA fija en móvil */
+.lp-sticky { position: fixed; inset: auto 0 0 0; z-index: 95; display: none; gap: .6rem; padding: .7rem; background: rgba(27,35,42,.94); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-top: 1px solid rgba(255,255,255,.1); }
+.lp-sticky .btn { flex: 1; min-height: 46px; font-size: .85rem; }
+@media (max-width: 767px) { .lp-sticky { display: flex; } body.lp { padding-bottom: 70px; } .lp .wa-float { display: none; } }

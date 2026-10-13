@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://seguridadprl.com.ar/schemas/lead-payload.schema.json",
+  "title": "Lead SEGURIDAD PRL",
+  "description": "Contrato del payload que el sitio web de SEGURIDAD PRL envía por POST (body string JSON, Content-Type text/plain;charset=utf-8) al webhook de automatización.",
+  "type": "object",
+  "required": ["meta", "contact", "message", "diagnostic", "consent"],
+  "additionalProperties": false,
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["lead_id", "event", "source", "page_url", "submitted_at"],
+      "additionalProperties": false,
+      "properties": {
+        "lead_id": {
+          "type": "string",
+          "description": "Identificador único generado en el front: PRL-AAAAMMDD-XXXX",
+          "pattern": "^PRL-\\d{8}-[A-Z0-9]{4,8}$"
+        },
+        "event": {
+          "type": "string",
+          "enum": ["lead.contacto", "lead.landing", "lead.diagnostico"]
+        },
+        "source": {
+          "type": "string",
+          "enum": ["sitio-web", "landing", "diagnostico"]
+        },
+        "page_url": { "type": "string", "format": "uri", "maxLength": 2048 },
+        "submitted_at": { "type": "string", "format": "date-time" },
+        "utm": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "source": { "type": "string", "maxLength": 200 },
+            "medium": { "type": "string", "maxLength": 200 },
+            "campaign": { "type": "string", "maxLength": 200 },
+            "term": { "type": "string", "maxLength": 200 },
+            "content": { "type": "string", "maxLength": 200 }
+          }
+        },
+        "user_agent": { "type": "string", "maxLength": 1024 }
+      }
+    },
+    "contact": {
+      "type": "object",
+      "required": ["nombre"],
+      "additionalProperties": false,
+      "anyOf": [
+        { "required": ["email"], "properties": { "email": { "minLength": 5 } } },
+        { "required": ["telefono"], "properties": { "telefono": { "minLength": 8 } } }
+      ],
+      "properties": {
+        "nombre": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "empresa": { "type": "string", "maxLength": 160 },
+        "cargo": { "type": "string", "maxLength": 120 },
+        "email": {
+          "type": "string",
+          "maxLength": 254,
+          "anyOf": [
+            { "const": "" },
+            { "format": "email", "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$" }
+          ]
+        },
+        "telefono": {
+          "type": "string",
+          "maxLength": 25,
+          "description": "Idealmente en E.164 Argentina: +549 + área + número",
+          "pattern": "^$|^\\+?[0-9\\s\\-()]{8,24}$"
+        },
+        "rubro": {
+          "type": "string",
+          "enum": [
+            "",
+            "Petróleo y gas",
+            "Minería",
+            "Construcción / Obra civil",
+            "Industria / Manufactura",
+            "Logística y transporte",
+            "Actividad marítima / portuaria",
+            "Comercio / Servicios / Hotelería",
+            "Otro"
+          ]
+        },
+        "localidad": { "type": "string", "maxLength": 120 }
+      }
+    },
+    "message": { "type": "string", "maxLength": 4000 },
+    "diagnostic": {
+      "oneOf": [
+        { "type": "null" },
+        {
+          "type": "object",
+          "required": ["score", "level", "level_label", "answers", "recommendation", "priority_services"],
+          "additionalProperties": false,
+          "properties": {
+            "score": { "type": "integer", "minimum": 0, "maximum": 100 },
+            "level": { "type": "string", "enum": ["bajo", "medio", "critico"] },
+            "level_label": { "type": "string", "enum": ["Riesgo Bajo", "Riesgo Medio", "Riesgo Crítico"] },
+            "answers": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "object",
+                "required": ["id", "question", "answer", "points"],
+                "additionalProperties": false,
+                "properties": {
+                  "id": { "type": "string", "maxLength": 60 },
+                  "question": { "type": "string", "maxLength": 400 },
+                  "answer": { "type": "string", "maxLength": 400 },
+                  "points": { "type": "number", "minimum": 0 }
+                }
+              }
+            },
+            "recommendation": { "type": "string", "maxLength": 2000 },
+            "priority_services": {
+              "type": "array",
+              "items": { "type": "string", "maxLength": 160 }
+            }
+          }
+        }
+      ]
+    },
+    "consent": {
+      "type": "object",
+      "required": ["privacy_accepted"],
+      "additionalProperties": false,
+      "properties": {
+        "privacy_accepted": { "const": true },
+        "contact_whatsapp": { "type": "boolean" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": { "properties": { "meta": { "properties": { "event": { "const": "lead.diagnostico" } } } } },
+      "then": { "properties": { "diagnostic": { "type": "object" } } }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "meta": {
+    "lead_id": "PRL-20261004-CR77",
+    "event": "lead.diagnostico",
+    "source": "diagnostico",
+    "page_url": "https://seguridadprl.example.com/diagnostico/",
+    "submitted_at": "2026-10-04T21:05:47-03:00",
+    "utm": { "source": "linkedin", "medium": "social", "campaign": "diagnostico-gratuito", "term": "", "content": "" },
+    "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/605.1.15"
+  },
+  "contact": {
+    "nombre": "Carlos Demo",
+    "empresa": "Minera Austral Ficticia S.A.",
+    "cargo": "Gerente de Operaciones",
+    "email": "carlos.demo@example.com",
+    "telefono": "+54 9 2966 40-0000",
+    "rubro": "Minería",
+    "localidad": "Santa Cruz"
+  },
+  "message": "Tenemos una auditoría de la ART en 30 días.",
+  "diagnostic": {
+    "score": 22,
+    "level": "critico",
+    "level_label": "Riesgo Crítico",
+    "answers": [
+      { "id": "rubro", "question": "¿En qué rubro opera tu empresa?", "answer": "Minería", "points": 0 },
+      { "id": "servicio_hys", "question": "¿Contás con servicio de Higiene y Seguridad (Dec. 351/79 / 911/96 / 249/07)?", "answer": "No", "points": 0 },
+      { "id": "matriz_riesgos", "question": "¿Tenés una matriz de evaluación de riesgos actualizada?", "answer": "Desactualizada (más de 2 años)", "points": 5 },
+      { "id": "capacitaciones", "question": "¿Registrás las capacitaciones del personal?", "answer": "Parcialmente", "points": 7 },
+      { "id": "epp", "question": "¿Entregás EPP con constancia (Res. SRT 299/11)?", "answer": "No", "points": 0 },
+      { "id": "mediciones", "question": "¿Realizaste mediciones de ruido, iluminación y PAT en el último año?", "answer": "No", "points": 0 },
+      { "id": "plan_emergencia", "question": "¿Tenés plan de emergencias y simulacros?", "answer": "Sí, sin simulacros", "points": 10 }
+    ],
+    "recommendation": "Tu empresa presenta brechas importantes frente a la Ley 19.587 y sus decretos reglamentarios. Recomendamos priorizar la designación del servicio de Higiene y Seguridad, actualizar la matriz de riesgos y regularizar la entrega de EPP antes de la auditoría.",
+    "priority_services": [
+      "Servicio de Higiene y Seguridad",
+      "Matriz de Evaluación de Riesgos",
+      "Mediciones de ruido, iluminación y puesta a tierra",
+      "Capacitaciones y registro de entrega de EPP"
+    ]
+  },
+  "consent": { "privacy_accepted": true, "contact_whatsapp": true }
+}

@@ -1,0 +1,138 @@
+{
+  "name": "SEGURIDAD PRL - Recepción de Leads y Notificaciones",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "seguridadprl-leads",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "node-webhook",
+      "name": "Webhook Entrante",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawBody = $input.item.json.body;\nlet data = {};\ntry {\n  data = typeof rawBody === 'string' ? JSON.parse(rawBody) : (rawBody || {});\n} catch (e) {\n  throw new Error('Invalid JSON payload');\n}\n\nconst meta = data.meta || {};\nconst contact = data.contact || {};\nconst diag = data.diagnostic || null;\n\nlet rawPhone = contact.telefono || '';\nlet cleanPhone = rawPhone.replace(/\\D/g, '');\nif (cleanPhone.startsWith('0')) cleanPhone = cleanPhone.slice(1);\nif (cleanPhone.startsWith('54') && !cleanPhone.startsWith('549')) {\n  cleanPhone = '549' + cleanPhone.slice(2);\n} else if (!cleanPhone.startsWith('549') && cleanPhone.length >= 10) {\n  cleanPhone = '549' + cleanPhone;\n}\nconst waPhone = cleanPhone ? '+' + cleanPhone : '';\nconst isCritico = diag && diag.level === 'critico';\n\nlet tgText = `<b>${isCritico ? '🔴 ALERTA LEAD CRÍTICO' : '📥 NUEVO LEAD'} - SEGURIDAD PRL</b>\\n\\n`;\ntgText += `<b>Lead ID:</b> <code>${meta.lead_id || 'N/A'}</code>\\n`;\ntgText += `<b>Origen:</b> ${meta.source || 'N/A'} (${meta.event || ''})\\n\\n`;\ntgText += `👤 <b>Nombre:</b> ${contact.nombre || '-'}\\n`;\ntgText += `🏢 <b>Empresa:</b> ${contact.empresa || '-'}\\n`;\ntgText += `💼 <b>Cargo:</b> ${contact.cargo || '-'}\\n`;\ntgText += `📍 <b>Localidad:</b> ${contact.localidad || '-'}\\n`;\ntgText += `🏭 <b>Rubro:</b> ${contact.rubro || '-'}\\n`;\ntgText += `📱 <b>WhatsApp:</b> ${contact.telefono || '-'} ${waPhone ? `(<a href=\"https://wa.me/${waPhone.replace('+','')}\">Abrir Chat</a>)` : ''}\\n`;\ntgText += `✉️ <b>Email:</b> ${contact.email || '-'}\\n\\n`;\n\nif (data.message) {\n  tgText += `💬 <b>Mensaje:</b> ${data.message}\\n\\n`;\n}\n\nif (diag) {\n  tgText += `📊 <b>DIAGNÓSTICO REGISTRADO</b>\\n`;\n  tgText += `• <b>Nivel:</b> ${diag.level_label || diag.level} (${diag.score}/100)\\n`;\n  tgText += `• <b>Servicios Sugeridos:</b> ${(diag.priority_services || []).join(', ')}\\n`;\n}\n\nreturn [{\n  json: {\n    lead_id: meta.lead_id,\n    submitted_at: meta.submitted_at,\n    event: meta.event,\n    source: meta.source,\n    nombre: contact.nombre,\n    empresa: contact.empresa,\n    cargo: contact.cargo,\n    email: contact.email,\n    telefono: contact.telefono,\n    wa_phone: waPhone,\n    rubro: contact.rubro,\n    localidad: contact.localidad,\n    mensaje: data.message || '',\n    diag_score: diag ? diag.score : '',\n    diag_level: diag ? diag.level : '',\n    diag_services: diag ? (diag.priority_services || []).join('; ') : '',\n    is_critico: isCritico,\n    telegram_text: tgText,\n    utm_source: (meta.utm && meta.utm.source) || '',\n    utm_campaign: (meta.utm && meta.utm.campaign) || ''\n  }\n}];"
+      },
+      "id": "node-parse",
+      "name": "Parsear y Formatear Lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 1,
+      "position": [320, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REEMPLAZAR_CON_ID_GOOGLE_SHEETS",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Leads",
+          "mode": "name"
+        },
+        "options": {}
+      },
+      "id": "node-sheets",
+      "name": "Guardar en Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [540, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "cred-google-sheets",
+          "name": "Google Sheets Credential"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "TU_CHAT_ID_TELEGRAM",
+        "text": "={{ $json.telegram_text }}",
+        "additionalFields": {
+          "parse_mode": "HTML"
+        }
+      },
+      "id": "node-telegram",
+      "name": "Notificar Equipo Comercial (Telegram)",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1,
+      "position": [760, 300],
+      "credentials": {
+        "telegramApi": {
+          "id": "cred-telegram-bot",
+          "name": "Telegram Bot Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={\n  \"ok\": true,\n  \"lead_id\": \"{{ $json.lead_id }}\",\n  \"status\": \"processed\"\n}",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "node-respond",
+      "name": "Responder al Webhook (200 OK)",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [980, 300]
+    }
+  ],
+  "connections": {
+    "Webhook Entrante": {
+      "main": [
+        [
+          {
+            "node": "Parsear y Formatear Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parsear y Formatear Lead": {
+      "main": [
+        [
+          {
+            "node": "Guardar en Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Guardar en Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Notificar Equipo Comercial (Telegram)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notificar Equipo Comercial (Telegram)": {
+      "main": [
+        [
+          {
+            "node": "Responder al Webhook (200 OK)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

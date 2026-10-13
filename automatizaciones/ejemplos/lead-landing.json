@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "lead_id": "PRL-20261004-LN45",
+    "event": "lead.landing",
+    "source": "landing",
+    "page_url": "https://seguridadprl.example.com/landing/?utm_source=facebook&utm_medium=cpc&utm_campaign=vaca-muerta-oct26",
+    "submitted_at": "2026-10-04T18:42:13-03:00",
+    "utm": { "source": "facebook", "medium": "cpc", "campaign": "vaca-muerta-oct26", "term": "", "content": "video-perforacion" },
+    "user_agent": "Mozilla/5.0 (Linux; Android 14; SM-A546E) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Mobile Safari/537.36"
+  },
+  "contact": {
+    "nombre": "María Prueba",
+    "empresa": "Servicios Petroleros Demo S.A.",
+    "cargo": "Coordinadora de HSE",
+    "email": "maria.prueba@example.com",
+    "telefono": "0299 15-400-0000",
+    "rubro": "Petróleo y gas",
+    "localidad": "Añelo"
+  },
+  "message": "",
+  "diagnostic": null,
+  "consent": { "privacy_accepted": true, "contact_whatsapp": true }
+}

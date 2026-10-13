@@ -1,0 +1,23 @@
+{
+  "meta": {
+    "lead_id": "PRL-20261004-AB12",
+    "event": "lead.contacto",
+    "source": "sitio-web",
+    "page_url": "https://seguridadprl.example.com/#contacto",
+    "submitted_at": "2026-10-04T23:10:00-03:00",
+    "utm": { "source": "google", "medium": "organic", "campaign": "", "term": "", "content": "" },
+    "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0 Safari/537.36"
+  },
+  "contact": {
+    "nombre": "Juan Ejemplo",
+    "empresa": "Constructora Ficticia del Golfo S.R.L.",
+    "cargo": "Jefe de Obra",
+    "email": "juan.ejemplo@example.com",
+    "telefono": "+5492974000000",
+    "rubro": "Construcción / Obra civil",
+    "localidad": "Comodoro Rivadavia"
+  },
+  "message": "Hola, estamos por iniciar una obra de 8 meses y necesitamos el programa de seguridad (Res. SRT 51/97) y un técnico en obra dos veces por semana. ¿Podemos coordinar una reunión?",
+  "diagnostic": null,
+  "consent": { "privacy_accepted": true, "contact_whatsapp": true }
+}
